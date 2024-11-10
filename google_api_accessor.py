@@ -1,6 +1,8 @@
 import functools
 import os.path
 
+from collections import namedtuple
+
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
@@ -13,6 +15,8 @@ SCOPES = [
     'https://www.googleapis.com/auth/drive.metadata.readonly',
     'https://www.googleapis.com/auth/documents.readonly'
 ]
+
+File = namedtuple('File', ['id', 'name'])
 
 def get_credentials():
     creds = None
@@ -51,12 +55,12 @@ def get_folder_id(folder_name: str, service: build) -> str:
     return items[0]['id'] if len(items) == 1 else None
 
 @api_exceptions
-def get_files_in_folder(folder_id: str, service: build) -> list[str]:
+def get_files_in_folder(folder_id: str, service: build) -> list[File]:
     results = service.files().list(q=f"'{folder_id}' in parents and trashed = false", fields="files(id, name)").execute()
     files = results.get('files', [])
-    return [file.get('id') for file in files]
+    return [File(file.get('id'), file.get('name')) for file in files]
 
 @api_exceptions
-def get_content(file_id: str, docs_service: build):
-    google_doc = docs_service.documents().get(documentId=file_id).execute()
+def get_content(file: File, docs_service: build):
+    google_doc = docs_service.documents().get(documentId=file.id).execute()
     return extract_plaintext_from_google_doc(google_doc)
