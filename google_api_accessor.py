@@ -7,7 +7,12 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 
-SCOPES = ["https://www.googleapis.com/auth/drive.metadata.readonly"]
+from file_utils import extract_plaintext_from_google_doc
+
+SCOPES = [
+    'https://www.googleapis.com/auth/drive.metadata.readonly',
+    'https://www.googleapis.com/auth/documents.readonly'
+]
 
 def get_credentials():
     creds = None
@@ -50,3 +55,8 @@ def get_files_in_folder(folder_id: str, service: build) -> list[str]:
     results = service.files().list(q=f"'{folder_id}' in parents and trashed = false", fields="files(id, name)").execute()
     files = results.get('files', [])
     return [file.get('id') for file in files]
+
+@api_exceptions
+def get_content(file_id: str, docs_service: build):
+    google_doc = docs_service.documents().get(documentId=file_id).execute()
+    return extract_plaintext_from_google_doc(google_doc)
