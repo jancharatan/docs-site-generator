@@ -14,9 +14,9 @@ def convert_to_html(content: str) -> str:
 
 def create_styles_css():
     with open(f"{BUILD_DIRECTORY}/styles.css", "w") as f:
-       f.write(css_class(HEADER_CLASS, ["font-size: xl", "font-weight: bold"]))
-       f.write(css_class(LINK_CLASS, ["font-size: xl", "font-weight: bold"]))
-       f.write(css_class(NAVBAR_CLASS, ["display: flex", "gap: 16px"]))
+       f.write(css_class(HEADER_CLASS, ["font-size: xl", "font-weight: bold", "font-size: 4vh"]))
+       f.write(css_class(LINK_CLASS, ["display: flex", "gap: 8px", "font-weight: bold", "font-size: 2vh"]))
+       f.write(css_class(NAVBAR_CLASS, ["display: flex", "flex-direction: column", "gap: 16px"]))
 
 def make_build(html_content: dict[str, str]):
     os.makedirs(BUILD_DIRECTORY, exist_ok=True)
@@ -24,9 +24,12 @@ def make_build(html_content: dict[str, str]):
     create_styles_css()
     with open(f"{BUILD_DIRECTORY}/index.html", "w") as f:
         f.write(STYLESHEET)
-        f.write(h1("Jan's website", HEADER_CLASS))
+        f.write(h1("JAN CHARATAN", HEADER_CLASS))
         
-        links = [link(name, f"{name}.html", LINK_CLASS) for (name, _) in html_content.items()]
+        links = ""
+        for (name, _) in html_content.items():
+            links += div("+" + link(f"{name}".lower(), f"{name}.html", None), LINK_CLASS)
+        
         f.write(div("".join(links), NAVBAR_CLASS))
 
     for (name, content) in html_content.items():
