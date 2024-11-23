@@ -9,7 +9,7 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 
-from file_utils import extract_plaintext_from_google_doc
+from docs_fetching.docs_utils import extract_plaintext_from_google_doc
 
 SCOPES = [
     'https://www.googleapis.com/auth/drive.metadata.readonly',

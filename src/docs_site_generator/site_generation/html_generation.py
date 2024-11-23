@@ -1,3 +1,7 @@
+from markdown import markdown
+
+STYLESHEET = '<link rel="stylesheet" type="text/css" href="styles.css" />'
+
 def create_tag(tag_name: str, attribute: str, is_open: bool) -> str:
    attribute_info = f" {attribute}" if (is_open and attribute) else ""
    optional_closing = "" if is_open else "/"
@@ -15,11 +19,12 @@ def div(content: str, css_class: str) -> str:
 def tag_with_css_class(content: str, css_class: str, tag_name: str) -> str:
     return create_tag(tag_name, f"class={css_class}", True) + content + create_tag(tag_name, None, False)
 
-def css_class(class_name: str, attributes: list[str]) -> str:
-   if not attributes:
-      return ""
+def convert_to_html(content: str) -> str:
+   return markdown(content)
 
-   open = f".{class_name} {{ \n"
-   attributes = ";\n".join(attributes)
-   close = ";\n}\n"
-   return open + attributes + close
+def get_head() -> str:
+    return """<head> 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    </head>"""

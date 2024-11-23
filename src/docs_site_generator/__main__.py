@@ -1,6 +1,6 @@
 from googleapiclient.discovery import build
-from google_api_accessor import get_credentials, get_folder_id, get_files_in_folder, get_content
-from site_builder import make_build
+from docs_fetching.api_accessor import get_credentials, get_folder_id, get_files_in_folder, get_content
+from site_generation.builder import make_build
 
 def main():
     folder_name = "docs-site-generator"
