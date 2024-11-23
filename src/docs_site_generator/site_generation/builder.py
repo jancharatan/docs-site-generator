@@ -1,6 +1,6 @@
 import os
 from .html_generation import convert_to_html, div, h1, link, get_head, STYLESHEET
-from .css_generation import RUBIK_CLASS, HEADER_CLASS, LINK_CLASS, NAVBAR_CLASS, PAGE_CLASS, get_css
+from .css_generation import HEADER_CLASS, NAVBAR_LINK_CLASS, NAVBAR_CLASS, PAGE_CLASS, get_css
 
 BUILD_DIRECTORY = "build"
 
@@ -12,11 +12,11 @@ def create_styles_css():
        f.write(get_css())
 
 def create_index_html(html_content: dict[str, str]):
-    page_content = h1("JAN CHARATAN", f"'{RUBIK_CLASS} {HEADER_CLASS}'")
+    page_content = h1("JAN CHARATAN", f"'{HEADER_CLASS}'")
 
     links = ""
     for (name, _) in html_content.items():
-        links += div("+" + link(f"{name}".lower(), f"{name}.html", None), f"'{RUBIK_CLASS} {LINK_CLASS}'")
+        links += div("+" + link(f"{name}".lower(), f"{name}.html", None), f"'{NAVBAR_LINK_CLASS}'")
 
     page_content += div("".join(links), NAVBAR_CLASS)
 
