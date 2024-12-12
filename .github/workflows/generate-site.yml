@@ -25,3 +25,8 @@ jobs:
               run: |
                   echo "$SERVICE_ACCOUNT_JSON" > service_account.json
                   python3 src/docs_site_generator
+            - name: Deploy to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./build
