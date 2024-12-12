@@ -21,7 +21,7 @@ jobs:
                   if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
             - name: List Google Drive folder contents
               env:
-                  SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+                  SERVICE_ACCOUNT_JSON: ${{ secrets.CREDENTIALS_JSON }}
               run: |
-                  echo "$SERVICE_ACCOUNT_JSON" > service_account.json
+                  echo "$CREDENTIALS_JSON" > credentials.json
                   python3 src/docs_site_generator
