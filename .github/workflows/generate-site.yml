@@ -1,6 +1,11 @@
 name: Generate Site
 
 on:
+    schedule:
+        # Runs every night at 4:59 AM UTC or 11:59 PM Eastern
+        - cron: "59 4 * * *"
+
+    # Optionally can also be run with manual trigger
     workflow_dispatch:
 
 permissions:
