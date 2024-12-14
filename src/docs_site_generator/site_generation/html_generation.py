@@ -2,13 +2,13 @@ from markdown import markdown
 
 STYLESHEET = '<link rel="stylesheet" type="text/css" href="styles.css" />'
 
-def link(text: str, to: str, css_class: str) -> str:
+def link(text: str, to: str, css_class: str = "") -> str:
    return tag(text, css_class, "a", f"href={to}")
 
-def h1(text: str, css_class: str) -> str:
+def h1(text: str, css_class: str = "") -> str:
    return tag(text, css_class, "h1")
 
-def div(content: str, css_class: str) -> str:
+def div(content: str, css_class: str = "") -> str:
     return tag(content, css_class, "div")
 
 def tag(content: str, css_class: str, tag_name: str, extra_attributes: str = "") -> str:
@@ -20,6 +20,7 @@ def create_tag(tag_name: str, attribute: str, is_open: bool) -> str:
    return f"<{optional_closing}{tag_name}{attribute_info}>"
 
 def convert_to_html(content: str) -> str:
+   content = content.replace("\n\n\n", "<div class=spacer />")
    return markdown(content)
 
 def get_head() -> str:

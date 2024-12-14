@@ -1,4 +1,5 @@
 import os
+import datetime
 from .html_generation import convert_to_html, div, h1, link, get_head, STYLESHEET
 from .css_generation import HEADER_CLASS, NAVBAR_LINK_CLASS, NAVBAR_CLASS, PAGE_CLASS, get_css
 
@@ -19,6 +20,8 @@ def create_index_html(html_content: dict[str, str]):
         links += div("+" + link(f"{name}".lower(), f"{name}.html", None), f"'{NAVBAR_LINK_CLASS}'")
 
     page_content += div("".join(links), NAVBAR_CLASS)
+    page_content += div("", "spacer")
+    page_content += div(f"Site last generated: {datetime.datetime.now(datetime.timezone.utc).strftime('%A, %d. %B %Y %I:%M%p')} UTC", "timestamp")
 
     with open(f"{BUILD_DIRECTORY}/index.html", "w") as f:
         f.write(page_wrapper(page_content))
